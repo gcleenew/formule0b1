@@ -69,13 +69,13 @@ public class Map {
 
                 // DEBUG : Draw hitbox
 
-                /*if (obj.isCollidable()) {
+                if (obj.isCollidable()) {
                     for (Circle c : obj.getHitbox()) {
                         int cx = (int) (obj.getPosition().x + camera.x + c.position.x -c.ray);
                         int cy = (int) (obj.getPosition().y + camera.y + c.position.y -c.ray);
                         g.drawOval(cx, cy, (int) c.ray*2, (int) c.ray*2);
                     }
-                }*/
+                }
             }
         }
     }
@@ -94,8 +94,8 @@ public class Map {
                 for (Circle cObj : obj.getHitbox()) {
                     for (Circle cO : obj.getHitbox()) {
 
-                        Vector2D pObj = o.getPosition().add(cO.position);
-                        Vector2D pO = obj.getPosition().add(cObj.position);
+                        Vector2D pO = o.getPosition().add(cO.position);
+                        Vector2D pObj = obj.getPosition().add(cObj.position);
                         double d = pO.sub(pObj).norm();
 
                         if (d <= cO.ray + cObj.ray) {

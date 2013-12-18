@@ -53,6 +53,7 @@ public class Object {
     }
 
     public void setRotation(double rotation) {
+        double diff = rotation - this.rotation;
         this.rotation = rotation;
 
         if (collidable) {
@@ -60,8 +61,8 @@ public class Object {
                 double norm = c.position.norm();
                 Vector2D dir = c.position.scalar(1/norm);
 
-                double cos = Math.cos(Math.toRadians(rotation));
-                double sin = Math.sin(Math.toRadians(rotation));
+                double cos = Math.cos(Math.toRadians(diff));
+                double sin = Math.sin(Math.toRadians(diff));
 
                 double x = dir.x * cos - dir.y * sin;
                 double y = dir.x * sin + dir.y * cos;
