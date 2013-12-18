@@ -20,24 +20,38 @@ public class Map {
         listObject = new ArrayList<Object>();
 
         camera = new Vector2D(0, 0);
-
+        String data = "";
         try {
             Scanner fileScanner = new Scanner(new FileReader(file_name));
 
             while (fileScanner.hasNextLine()) {
-                System.out.println(fileScanner.nextLine());
+                data += fileScanner.nextLine() + ";";
             }
         }
         catch (FileNotFoundException e) {
             System.out.println("File \"" + file_name + "\" not found.");
         }
+        String[] dataArray = data.split(";");
+        
+        int height = dataArray.length;
+        int width = dataArray[0].length();
 
-        // TODO : load tiles from file
-        Terrain t = new Terrain("../ressources/textures/grass.png", 2);
-        tiles = new ITile[500][500];
+        Terrain grass = new Terrain("../ressources/textures/grass.png", 2);
+        Terrain road = new Terrain("../ressources/textures/road.png", 1);
+        tiles = new ITile[width][height];
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j] = new SimpleTile(t);
+                //tiles[i][j] = new SimpleTile(t);
+                switch (dataArray[j].charAt(i)) {
+                    case '.':
+                        tiles[i][j] = new SimpleTile(grass);
+                        break;
+                    case ' ':
+                        tiles[i][j] = new SimpleTile(road);
+                        break;
+                    default:
+                        tiles[i][j] = new SimpleTile(grass);
+                }
             }
         }
     }
