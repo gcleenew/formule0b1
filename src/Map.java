@@ -34,7 +34,7 @@ public class Map {
 
         // TODO : load tiles from file
         Terrain t = new Terrain("../ressources/textures/grass.png", 2);
-        tiles = new ITile[500][500];
+        tiles = new ITile[100][100];
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
                 tiles[i][j] = new SimpleTile(t);
