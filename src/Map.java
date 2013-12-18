@@ -116,6 +116,7 @@ public class Map {
                         double d = pO.sub(pObj).norm();
 
                         if (d <= cO.ray + cObj.ray) {
+                            System.out.println("Collision");
                             return true;
                         }
                     }
@@ -123,6 +124,10 @@ public class Map {
             }
         }
         return false;
+    }
+
+    public double getFrictionAt(Vector2D position) {
+        return 2;
     }
 
     public void centerCamera(Object obj) {

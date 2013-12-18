@@ -16,7 +16,7 @@ public class Vehicle extends Object {
     public void move(double dt) {
 
         // Todo: get k from map
-        double k = 2;
+        double k = map.getFrictionAt(position);
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);
 
@@ -35,7 +35,7 @@ public class Vehicle extends Object {
 
         Vector2D speedTmp = speed;
         Vector2D positionTmp = position;
-        double k = 2;
+        double k = map.getFrictionAt(position);
 
         for (double t = 0; t < dturn; t += dt) {
             speedTmp = speedTmp.add(acceleration.sub(speedTmp.scalar(k)).scalar(dt));
