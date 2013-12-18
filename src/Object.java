@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.IOException;
 
 import java.awt.Image;
-import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 
 public class Object {
@@ -18,17 +17,12 @@ public class Object {
 
     Object(Vector2D position, String spritePath) {
         this.position = position;
-        this.sprite = sprite;
 
-        try {                
+        try {
             sprite = ImageIO.read(new File(spritePath));
         } catch (IOException e) {
              System.out.println("Sprite \"" + spritePath + "\" not found.");
         }
-    }
-
-    public void draw(Graphics2D g) {
-        System.out.println("aa");
     }
 
     public boolean isCollidable() {
