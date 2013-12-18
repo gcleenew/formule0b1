@@ -2,7 +2,7 @@ public class Terrain {
 	//img
 	private double friction;
 
-	public static double getFriction () {
+	public double getFriction () {
 		return friction;
 	}
 }

@@ -1,4 +1,9 @@
 public class Circle {
-    private Vector2D position;
-    private double ray;
+    public Vector2D position;
+    public double ray;
+
+    Circle(Vector2D position, double ray) {
+        this.position = position;
+        this.ray = ray;
+    }
 }
