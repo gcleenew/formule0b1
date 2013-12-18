@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 public class Map {
+    public static final int TILE_SIZE = 16;
 
     private ArrayList<Object> listObject;
     private ITile[][] tiles;
@@ -33,7 +34,7 @@ public class Map {
 
         // TODO : load tiles from file
         Terrain t = new Terrain("../ressources/textures/grass.png", 2);
-        tiles = new ITile[2][2];
+        tiles = new ITile[500][500];
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
                 tiles[i][j] = new SimpleTile(t);
@@ -83,7 +84,7 @@ public class Map {
     public void drawTiles(Graphics2D g) {
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].draw(g, camera);
+                tiles[i][j].draw(g, camera, i, j);
             }
         }
     }
