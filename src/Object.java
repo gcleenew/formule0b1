@@ -66,7 +66,7 @@ public class Object {
                 double x = dir.x * cos - dir.y * sin;
                 double y = dir.x * sin + dir.y * cos;
 
-                System.out.println(c.position.x + " " + c.position.y + "/" + norm + "/" + rotation + "/" + cos + " " + sin + "/" + x + " " + y);
+                //System.out.println(c.position.x + " " + c.position.y + "/" + norm + "/" + rotation + "/" + cos + " " + sin + "/" + x + " " + y);
 
                 c.position = new Vector2D(x * norm, y * norm);
             }

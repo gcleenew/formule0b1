@@ -19,7 +19,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public static void main(String[] args) {
         System.out.println("Formule 0b1!");
 
-        Map map = new Map("../ressources/map.txt");
+        Map map = new Map("../ressources/Map/Line.txt");
 
         Game g = new Game(map);
     }

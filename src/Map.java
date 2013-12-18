@@ -10,6 +10,8 @@ import java.awt.geom.AffineTransform;
 public class Map {
 
     private ArrayList<Object> listObject;
+    private ITile[][] tiles;
+
     private Vector2D camera;
 
     Map(String file_name) {
@@ -28,6 +30,15 @@ public class Map {
         catch (FileNotFoundException e) {
             System.out.println("File \"" + file_name + "\" not found.");
         }
+
+        // TODO : load tiles from file
+        Terrain t = new Terrain("../ressources/textures/grass.png", 2);
+        tiles = new ITile[2][2];
+        for (int i = 0; i < tiles.length; i++) {
+            for(int j = 0; j < tiles[i].length; j++) {
+                tiles[i][j] = new SimpleTile(t);
+            }
+        }
     }
 
     public void addObject(Object obj) {
@@ -35,6 +46,8 @@ public class Map {
     }
 
     public void draw(Graphics2D g) {
+
+        drawTiles(g);
 
         AffineTransform transform;
 
@@ -63,6 +76,14 @@ public class Map {
                         g.drawOval(cx, cy, (int) c.ray*2, (int) c.ray*2);
                     }
                 }*/
+            }
+        }
+    }
+
+    public void drawTiles(Graphics2D g) {
+        for (int i = 0; i < tiles.length; i++) {
+            for(int j = 0; j < tiles[i].length; j++) {
+                tiles[i][j].draw(g, camera);
             }
         }
     }
