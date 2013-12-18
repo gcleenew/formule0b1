@@ -16,14 +16,14 @@ public class Object {
     protected boolean collidable = false;
     protected Circle[] hitbox;
 
-    Object(Vector2D position, String sprite_path) {
+    Object(Vector2D position, String spritePath) {
         this.position = position;
         this.sprite = sprite;
 
         try {                
-            sprite = ImageIO.read(new File(sprite_path));
+            sprite = ImageIO.read(new File(spritePath));
         } catch (IOException e) {
-             System.out.println("Sprite \"" + sprite_path + "\" not found.");
+             System.out.println("Sprite \"" + spritePath + "\" not found.");
         }
     }
 
