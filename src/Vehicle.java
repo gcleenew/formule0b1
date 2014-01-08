@@ -42,7 +42,7 @@ public class Vehicle extends Object {
         double k;
 
         for (double t = 0; t < dturn; t += dt) {
-            k = map.getFrictionAt(position);
+            k = map.getFrictionAt(positionTmp);
             speedTmp = speedTmp.add(acceleration.sub(speedTmp.scalar(k)).scalar(dt));
             positionTmp = positionTmp.add(speedTmp.scalar(dt));
         }
