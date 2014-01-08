@@ -37,7 +37,7 @@ public class Map {
         int height = dataArray.length;
         int width = dataArray[0].length();
 
-        Terrain grass = new Terrain("../ressources/textures/grass.png", 2);
+        Terrain grass = new Terrain("../ressources/textures/grass.png", 200);
         Terrain road = new Terrain("../ressources/textures/road.png", 1);
         tiles = new ITile[width][height];
 
@@ -109,7 +109,7 @@ public class Map {
         for (Object obj : listObject) {
             if (obj.isCollidable() && obj != o) {
                 for (Circle cObj : obj.getHitbox()) {
-                    for (Circle cO : obj.getHitbox()) {
+                    for (Circle cO : o.getHitbox()) {
 
                         Vector2D pO = o.getPosition().add(cO.position);
                         Vector2D pObj = obj.getPosition().add(cObj.position);

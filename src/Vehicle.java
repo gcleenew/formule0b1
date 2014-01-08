@@ -20,6 +20,10 @@ public class Vehicle extends Object {
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);
 
+        if (k == -1) { // On water
+            acceleration = new Vector2D(0, 0);
+        }
+
         speed = speed.add(acceleration.sub(speed.scalar(k)).scalar(dt));
         position = position.add(speed.scalar(dt));
 
@@ -35,9 +39,10 @@ public class Vehicle extends Object {
 
         Vector2D speedTmp = speed;
         Vector2D positionTmp = position;
-        double k = map.getFrictionAt(position);
+        double k;
 
         for (double t = 0; t < dturn; t += dt) {
+            k = map.getFrictionAt(position);
             speedTmp = speedTmp.add(acceleration.sub(speedTmp.scalar(k)).scalar(dt));
             positionTmp = positionTmp.add(speedTmp.scalar(dt));
         }

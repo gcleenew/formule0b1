@@ -12,6 +12,8 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 768;
+    
+    public static final double ACCELERATION_FACTOR = 150;
 
     public static final int DT = 30;
     public static final int DTURN = 1000;
@@ -54,7 +56,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             int y = (int)(Math.random() * WINDOW_HEIGHT);
             Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree.png");
             hitbox = new Circle[1];
-            hitbox[0] = new Circle(new Vector2D(0, 0), 15);
+            hitbox[0] = new Circle(new Vector2D(0, 5), 15);
 
             tree.setHitbox(hitbox);
             map.addObject(tree);
@@ -106,8 +108,59 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT:
-                car.getPosition().x += 10;
+            case KeyEvent.VK_D:
+                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, 0));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_E:
+                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_Q:
+                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, 0));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_C:
+                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_Z:
+                car.setAcceleration(new Vector2D(0, -ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_A:
+                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_W:
+                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_S:
+                car.setAcceleration(new Vector2D(0, 0));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
+                break;
+            case KeyEvent.VK_X:
+                car.setAcceleration(new Vector2D(0, ACCELERATION_FACTOR));
+                
+                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                target.setVisible(true);
                 break;
             case KeyEvent.VK_SPACE:
                 target.setVisible(false);
