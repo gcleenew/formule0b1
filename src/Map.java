@@ -37,8 +37,9 @@ public class Map {
         int height = dataArray.length;
         int width = dataArray[0].length();
 
-        Terrain grass = new Terrain("../ressources/textures/grass.png", 5);
+        Terrain grass = new Terrain("../ressources/textures/grass2.png", 5);
         Terrain road = new Terrain("../ressources/textures/road.png", 0.1);
+        Terrain rock = new Terrain("../ressources/textures/road2.png", 0.1);
         tiles = new ITile[width][height];
 
         for (int i = 0; i < tiles.length; i++) {
@@ -50,6 +51,9 @@ public class Map {
                         break;
                     case ' ':
                         tiles[i][j] = new SimpleTile(road);
+                        break;
+                    case 'x':
+                        tiles[i][j] = new SimpleTile(rock);
                         break;
                     default:
                         tiles[i][j] = new SimpleTile(grass);
@@ -116,7 +120,6 @@ public class Map {
                         double d = pO.sub(pObj).norm();
 
                         if (d <= cO.ray + cObj.ray) {
-                            System.out.println("Collision");
                             return true;
                         }
                     }
