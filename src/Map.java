@@ -41,8 +41,8 @@ public class Map {
     
         terrains = new Terrain[3];
         terrains[0] = new Terrain("../ressources/textures/road.png", 5);
-        terrains[1] = new Terrain("../ressources/textures/grass.png", 0.1);
-        terrains[2] = new Terrain("../ressources/textures/water.png", 0.1);
+        terrains[1] = new Terrain("../ressources/textures/grassset.png", 0.1);
+        terrains[2] = new Terrain("../ressources/textures/waterset.png", 0.1);
         
         tiles = new Tile[width - 1][height - 1];
 
@@ -101,13 +101,13 @@ public class Map {
 
                 // DEBUG : Draw hitbox
 
-                if (obj.isCollidable()) {
+                /*if (obj.isCollidable()) {
                     for (Circle c : obj.getHitbox()) {
                         int cx = (int) (obj.getPosition().x + camera.x + c.position.x -c.ray);
                         int cy = (int) (obj.getPosition().y + camera.y + c.position.y -c.ray);
                         g.drawOval(cx, cy, (int) c.ray*2, (int) c.ray*2);
                     }
-                }
+                }*/
             }
         }
     }

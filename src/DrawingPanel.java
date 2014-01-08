@@ -1,5 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Color;
 import javax.swing.JPanel;
  
 public class DrawingPanel extends JPanel {
@@ -8,6 +9,7 @@ public class DrawingPanel extends JPanel {
 
     DrawingPanel(Map map) {
         this.map = map;
+        this.setBackground(Color.BLACK);
     }
 
     public void paintComponent(Graphics g) {
