@@ -37,8 +37,8 @@ public class Map {
         int height = dataArray.length;
         int width = dataArray[0].length();
 
-        Terrain grass = new Terrain("../ressources/textures/grass.png", 200);
-        Terrain road = new Terrain("../ressources/textures/road.png", 1);
+        Terrain grass = new Terrain("../ressources/textures/grass.png", 5);
+        Terrain road = new Terrain("../ressources/textures/road.png", 0.1);
         tiles = new ITile[width][height];
 
         for (int i = 0; i < tiles.length; i++) {
@@ -127,7 +127,9 @@ public class Map {
     }
 
     public double getFrictionAt(Vector2D position) {
-        return 2;
+        int x = (int) position.x/TILE_SIZE;
+        int y = (int) position.y/TILE_SIZE;
+        return tiles[x][y].getFriction(new Vector2D(position.x-TILE_SIZE*x, position.y-TILE_SIZE*y));
     }
 
     public void centerCamera(Object obj) {

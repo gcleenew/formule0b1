@@ -13,7 +13,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 768;
     
-    public static final double ACCELERATION_FACTOR = 150;
+    public static final double ACCELERATION_FACTOR = 50;
 
     public static final int DT = 30;
     public static final int DTURN = 1000;
