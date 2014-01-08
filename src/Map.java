@@ -40,6 +40,7 @@ public class Map {
         Terrain grass = new Terrain("../ressources/textures/grass2.png", 5);
         Terrain road = new Terrain("../ressources/textures/road.png", 0.1);
         Terrain rock = new Terrain("../ressources/textures/road2.png", 0.1);
+
         tiles = new ITile[width][height];
 
         for (int i = 0; i < tiles.length; i++) {
