@@ -20,7 +20,7 @@ public class Vehicle extends Object {
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);
 
-        if (k == -1) { // On water
+        if (k == -1) { // Smoke On the water
             acceleration = new Vector2D(0, 0);
         }
 

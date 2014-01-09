@@ -8,10 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 public class Map {
-    public static final int TILE_SIZE = 16;
+    public static final int TILE_SIZE = 32;
 
     private ArrayList<Object> listObject;
-    private ITile[][] tiles;
+    private Tile[][] tiles;
+    
+    private Terrain[] terrains;
 
     private Vector2D camera;
 
@@ -36,29 +38,38 @@ public class Map {
         
         int height = dataArray.length;
         int width = dataArray[0].length();
+    
+        terrains = new Terrain[3];
+        terrains[0] = new Terrain("../ressources/textures/road2.png", 5);
+        terrains[1] = new Terrain("../ressources/textures/grassset.png", 0.1);
+        terrains[2] = new Terrain("../ressources/textures/waterset.png", 0.1);
+        
+        tiles = new Tile[width - 1][height - 1];
 
-        Terrain grass = new Terrain("../ressources/textures/grass.png", 5);
-        Terrain road = new Terrain("../ressources/textures/road.png", 0.1);
-        Terrain rock = new Terrain("../ressources/textures/road2.png", 0.1);
 
-        tiles = new ITile[width][height];
-
-        for (int i = 0; i < tiles.length; i++) {
-            for(int j = 0; j < tiles[i].length; j++) {
+        for (int i = 0; i < width - 1; i++) {
+            for(int j = 0; j < height - 1; j++) {
                 //tiles[i][j] = new SimpleTile(t);
-                switch (dataArray[j].charAt(i)) {
+                int c1 = Character.getNumericValue(dataArray[j].charAt(i));
+                int c2 = Character.getNumericValue(dataArray[j].charAt(i+1));
+                int c3 = Character.getNumericValue(dataArray[j+1].charAt(i+1));
+                int c4 = Character.getNumericValue(dataArray[j+1].charAt(i));
+                                
+                tiles[i][j] = new Tile(c1, c2, c3, c4);
+                
+                /*switch (dataArray[j].charAt(i)) {
                     case '.':
-                        tiles[i][j] = new SimpleTile(grass);
+                        tiles[i][j] = new Tile(grass);
                         break;
                     case ' ':
-                        tiles[i][j] = new SimpleTile(road);
+                        tiles[i][j] = new Tile(road);
                         break;
                     case 'x':
-                        tiles[i][j] = new SimpleTile(rock);
+                        tiles[i][j] = new Tile(rock);
                         break;
                     default:
-                        tiles[i][j] = new SimpleTile(grass);
-                }
+                        tiles[i][j] = new Tile(grass);
+                }*/
             }
         }
     }
@@ -105,7 +116,7 @@ public class Map {
     public void drawTiles(Graphics2D g) {
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].draw(g, camera, i, j);
+                tiles[i][j].draw(g, camera, i, j, this);
             }
         }
     }
@@ -145,5 +156,9 @@ public class Map {
         int x = (int) (obj.getPosition().x + camera.x);
         int y = (int) (obj.getPosition().y + camera.y);
         return new Vector2D(x, y);
+    }
+    
+    public Terrain getTerrain(int level) {
+        return terrains[level];
     }
 }

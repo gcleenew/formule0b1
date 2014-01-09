@@ -2,6 +2,7 @@ import java.awt.Graphics2D;
 
 public class SimpleTile implements ITile {
 	protected Terrain terrain;
+    protected int code;
 
 	SimpleTile(Terrain terrain) {
 		this.terrain = terrain;
