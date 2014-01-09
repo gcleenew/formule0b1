@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
+import javax.swing.JPanel;
 
 import java.awt.event.MouseListener;
 import java.awt.event.KeyListener;
@@ -21,14 +22,16 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public static void main(String[] args) {
         System.out.println("Formule 0b1!");
+        //Menu menu = new Menu();
+        System.out.println("done");
+        //Map map = new Map("../ressources/Map/Sonama2.txt");
 
-        Map map = new Map("../ressources/Map/Sonama2.txt");
-
-        Game g = new Game(map);
+        Game g = new Game();
     }
 
+
     private Map map;
-    private DrawingPanel panel;
+    private JPanel panel;
 
     private Vehicle car;
     private Object target;
@@ -39,13 +42,35 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private double time = 0;
     private JLabel timeLabel;
 
-    public Game(Map map) {
-        this.map = map;
-        panel = new DrawingPanel(map);
-        
-        timeLabel = new JLabel("");
-        panel.add(timeLabel);
+    private boolean ingame = false;
 
+    public Game() {
+        
+        //panel = new DrawingPanel(map);
+        //timeLabel = new JLabel("");
+        //panel.add(timeLabel);
+
+        addMouseListener(this);
+        addKeyListener(this);
+
+        this.setTitle("Formule 0b1");
+        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        this.setLocationRelativeTo(null);               
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        panel = new MenuPanel();
+        setContentPane(panel);
+        setVisible(true); 
+        //this.setVisible(true);
+    }
+
+    public void launchGame() {
+        
+        ingame = true;
+        map = new Map("../ressources/Map/Sonama2.txt");
+        panel = new DrawingPanel(map);
+        setContentPane(panel);
+        setVisible(true); 
         car = map.getCar();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
@@ -55,20 +80,9 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         map.addObject(car);
 
         map.centerCamera(car);
-
-        addMouseListener(this);
-        addKeyListener(this);
-
         iTurn = 0;
         turnTimer = new Timer(DT, this);
 
-        this.setTitle("Formule 0b1");
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setLocationRelativeTo(null);               
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(panel);
-
-        this.setVisible(true);
     }
 
     public void turn() {
@@ -101,67 +115,75 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     }
 
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_D:
-                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, 0));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_E:
-                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_Q:
-                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, 0));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_C:
-                car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_Z:
-                car.setAcceleration(new Vector2D(0, -ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_A:
-                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_W:
-                car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_S:
-                car.setAcceleration(new Vector2D(0, 0));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_X:
-                car.setAcceleration(new Vector2D(0, ACCELERATION_FACTOR));
-                
-                target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-                target.setVisible(true);
-                break;
-            case KeyEvent.VK_SPACE:
-                target.setVisible(false);
-                turnTimer.start();
-                break;
+        if (ingame) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_D:
+                    car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, 0));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_E:
+                    car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_Q:
+                    car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, 0));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_C:
+                    car.setAcceleration(new Vector2D(ACCELERATION_FACTOR, ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_Z:
+                    car.setAcceleration(new Vector2D(0, -ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_A:
+                    car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, -ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_W:
+                    car.setAcceleration(new Vector2D(-ACCELERATION_FACTOR, ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_S:
+                    car.setAcceleration(new Vector2D(0, 0));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_X:
+                    car.setAcceleration(new Vector2D(0, ACCELERATION_FACTOR));
+                    
+                    target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+                    target.setVisible(true);
+                    break;
+                case KeyEvent.VK_SPACE:
+                    target.setVisible(false);
+                    turnTimer.start();
+                    break;
+            }
+            refresh();
+        } else {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_SPACE:
+                    launchGame();
+                    break;
+            }
         }
-        refresh();
     }
 
     public void keyReleased(KeyEvent e) {
