@@ -17,6 +17,8 @@ public class Map {
 
     private Vector2D camera;
 
+    private Vehicle car;
+
     Map(String file_name) {
 
         listObject = new ArrayList<Object>();
@@ -34,8 +36,10 @@ public class Map {
             System.out.println("File \"" + file_name + "\" not found.");
         }
 
-        String[] dataArray = data.split(";");
-        
+        String[] dataAll = data.split("=");
+        String[] dataArray = dataAll[0].split(";");
+        String[] dataObject = dataAll[1].split(";");
+
         int height = dataArray.length;
         int width = dataArray[0].length();
     
@@ -56,20 +60,35 @@ public class Map {
                 int c4 = Character.getNumericValue(dataArray[j+1].charAt(i));
                                 
                 tiles[i][j] = new Tile(c1, c2, c3, c4);
-                
-                /*switch (dataArray[j].charAt(i)) {
-                    case '.':
-                        tiles[i][j] = new Tile(grass);
-                        break;
-                    case ' ':
-                        tiles[i][j] = new Tile(road);
-                        break;
-                    case 'x':
-                        tiles[i][j] = new Tile(rock);
-                        break;
-                    default:
-                        tiles[i][j] = new Tile(grass);
-                }*/
+
+            }
+        }
+
+        double x;
+        double y;
+        Circle[] hitbox;
+        
+        for (int i = 1; i < dataObject.length; i++) {
+            String[] dataLine = dataObject[i].split(" ");
+            switch (dataLine[0]) {
+                case "T":
+                    x = Double.parseDouble(dataLine[1]);
+                    y = Double.parseDouble(dataLine[2]);
+                    Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree2.png");
+                    hitbox = new Circle[1];
+                    hitbox[0] = new Circle(new Vector2D(0, 0), 15);
+
+                    tree.setHitbox(hitbox);
+                    addObject(tree);
+                    break;
+                case "V":
+                    x = Double.parseDouble(dataLine[1]);
+                    y = Double.parseDouble(dataLine[2]);
+                    car = new Vehicle(this, new Vector2D(x, y), "../ressources/sprites/chocobo_shadow.png");
+                    hitbox = new Circle[2];
+                    hitbox[0] = new Circle(new Vector2D(-8, 0), 8);
+                    hitbox[1] = new Circle(new Vector2D(8, 0), 8);
+                    car.setHitbox(hitbox);
             }
         }
     }
@@ -160,5 +179,9 @@ public class Map {
     
     public Terrain getTerrain(int level) {
         return terrains[level];
+    }
+
+    public Vehicle getCar() {
+        return car;
     }
 }

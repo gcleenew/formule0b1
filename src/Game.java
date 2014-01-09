@@ -46,28 +46,13 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         timeLabel = new JLabel("");
         panel.add(timeLabel);
 
-        car = new Vehicle(map, new Vector2D(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), "../ressources/sprites/chocobo_shadow.png");
-        Circle[] hitbox = new Circle[2];
-        hitbox[0] = new Circle(new Vector2D(-8, 0), 8);
-        hitbox[1] = new Circle(new Vector2D(8, 0), 8);
-        car.setHitbox(hitbox);
+        car = map.getCar();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
         target.setVisible(false);
 
         map.addObject(target);
         map.addObject(car);
-
-        for (int i = 0; i < 20; i++) {
-            int x = (int)(Math.random() * WINDOW_WIDTH);
-            int y = (int)(Math.random() * WINDOW_HEIGHT);
-            Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree2.png");
-            hitbox = new Circle[1];
-            hitbox[0] = new Circle(new Vector2D(0, 0), 15);
-
-            tree.setHitbox(hitbox);
-            map.addObject(tree);
-        }
 
         map.centerCamera(car);
 
