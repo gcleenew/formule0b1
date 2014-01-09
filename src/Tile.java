@@ -2,7 +2,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.Arrays;
 
-public class Tile {    
+public class Tile {
+    
+    public static final int FACTOR = 2;
+    
     protected int c1, c2, c3, c4;
 
 	Tile(int c1, int c2, int c3, int c4) {
@@ -21,7 +24,7 @@ public class Tile {
         int x = (int) camera.x+Map.TILE_SIZE*i;
         int y = (int) camera.y+Map.TILE_SIZE*j;
         
-        g.drawImage(map.getTerrain(tmp).getTexture(), x, y, x + Map.TILE_SIZE, y + Map.TILE_SIZE, 0, 0, Map.TILE_SIZE, Map.TILE_SIZE, null);
+        g.drawImage(map.getTerrain(tmp).getTexture(), x, y, x + Map.TILE_SIZE, y + Map.TILE_SIZE, 0, 0, Map.TILE_SIZE/FACTOR, Map.TILE_SIZE/FACTOR, null);
         for (int e : levels) {
             if (tmp != e) {
                 tmp = e;
@@ -78,14 +81,14 @@ public class Tile {
                         dx = 0; dy = 0;
                         break;
                 }
-                g.drawImage(img, x, y, x + Map.TILE_SIZE, y + Map.TILE_SIZE, dx * Map.TILE_SIZE, dy * Map.TILE_SIZE, (dx+1) * Map.TILE_SIZE, (dy +1) * Map.TILE_SIZE, null);
+                g.drawImage(img, x, y, x + Map.TILE_SIZE, y + Map.TILE_SIZE, dx * Map.TILE_SIZE/FACTOR, dy * Map.TILE_SIZE/FACTOR, (dx+1) * Map.TILE_SIZE/FACTOR, (dy +1) * Map.TILE_SIZE/FACTOR, null);
             }
         }
         //g.drawImage(terrain.getTexture(), (int) camera.x+Map.TILE_SIZE*i, (int) camera.y+Map.TILE_SIZE*j, null);
     }
 
     public double getFriction(Vector2D position) {
-    	return 1; //return terrain.getFriction();
+    	return 0.1; //return terrain.getFriction();
     }
     
     public int lowestLevel() {

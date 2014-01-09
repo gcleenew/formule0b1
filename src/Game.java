@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 import java.awt.event.MouseListener;
@@ -34,10 +35,16 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     private int iTurn;
     private Timer turnTimer;
+    
+    private double time = 0;
+    private JLabel timeLabel;
 
     public Game(Map map) {
         this.map = map;
         panel = new DrawingPanel(map);
+        
+        timeLabel = new JLabel("");
+        panel.add(timeLabel);
 
         car = new Vehicle(map, new Vector2D(WINDOW_WIDTH/2, WINDOW_HEIGHT/2), "../ressources/sprites/chocobo_shadow.png");
         Circle[] hitbox = new Circle[2];
@@ -56,7 +63,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             int y = (int)(Math.random() * WINDOW_HEIGHT);
             Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree2.png");
             hitbox = new Circle[1];
-            hitbox[0] = new Circle(new Vector2D(0, 5), 15);
+            hitbox[0] = new Circle(new Vector2D(0, 0), 15);
 
             tree.setHitbox(hitbox);
             map.addObject(tree);
@@ -81,6 +88,8 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public void turn() {
         car.move((double) DT/1000);
+        time += (double) DT/1000;
+        timeLabel.setText(Double.toString(time));
         //car.setAcceleration(new Vector2D(0, 0));
         map.centerCamera(car);
         refresh();
