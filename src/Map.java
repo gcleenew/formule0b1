@@ -37,7 +37,7 @@ public class Map {
         int height = dataArray.length;
         int width = dataArray[0].length();
 
-        Terrain grass = new Terrain("../ressources/textures/grass2.png", 5);
+        Terrain grass = new Terrain("../ressources/textures/grass.png", 5);
         Terrain road = new Terrain("../ressources/textures/road.png", 0.1);
         Terrain rock = new Terrain("../ressources/textures/road2.png", 0.1);
 
