@@ -14,17 +14,17 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 768;
-    
+
+    public static int panelSizeX;
+    public static int panelSizeY;
+
     public static final double ACCELERATION_FACTOR = 50;
 
-    public static final int DT = 30;
+    public static final int DT = 25;
     public static final int DTURN = 1000;
 
     public static void main(String[] args) {
         System.out.println("Formule 0b1!");
-        //Menu menu = new Menu();
-        System.out.println("done");
-        //Map map = new Map("../ressources/Map/Sonama2.txt");
 
         Game g = new Game();
     }
@@ -39,7 +39,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private int iTurn;
     private Timer turnTimer;
     
-    private double time = 0;
+    private int tick = 0;
     private JLabel timeLabel;
 
     private boolean ingame = false;
@@ -47,8 +47,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public Game() {
         
         //panel = new DrawingPanel(map);
-        //timeLabel = new JLabel("");
-        //panel.add(timeLabel);
 
         addMouseListener(this);
         addKeyListener(this);
@@ -60,16 +58,26 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         
         panel = new MenuPanel();
         setContentPane(panel);
-        setVisible(true); 
-        //this.setVisible(true);
+
+
+
+        setVisible(true);
+
+        panelSizeX = panel.getSize().width;
+        panelSizeY = panel.getSize().height;
     }
 
-    public void launchGame() {
+    public void launchGame(String mapPath) {
         
         ingame = true;
-        map = new Map("../ressources/Map/Sonama2.txt");
+        map = new Map("../ressources/Map/" + mapPath);
         panel = new DrawingPanel(map);
         setContentPane(panel);
+
+        timeLabel = new JLabel("");
+        timeLabel.setText("0.0");
+        panel.add(timeLabel);
+
         setVisible(true); 
         car = map.getCar();
         
@@ -87,8 +95,9 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public void turn() {
         car.move((double) DT/1000);
-        time += (double) DT/1000;
-        timeLabel.setText(Double.toString(time));
+        tick += 1;
+        //time = Math.round(time*1000)/1000;
+        timeLabel.setText(Double.toString(tick*DT/100/10.0));
         //car.setAcceleration(new Vector2D(0, 0));
         map.centerCamera(car);
         refresh();
@@ -104,7 +113,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         turn();
 
         iTurn++;
-        if (iTurn == DTURN/DT) {
+        if (iTurn >= DTURN/DT) {
             iTurn = 0;
             turnTimer.stop();
         }
@@ -179,8 +188,11 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             refresh();
         } else {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_SPACE:
-                    launchGame();
+                case KeyEvent.VK_A:
+                    launchGame("Sonama2.txt");
+                    break;
+                case KeyEvent.VK_B:
+                    launchGame("Flavescence.txt");
                     break;
             }
         }
@@ -191,20 +203,22 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     // Mouse events
     public void mousePressed(MouseEvent e) {
-        int mouseX = panel.getMousePosition().x;
-        int mouseY = panel.getMousePosition().y;
+        if (ingame) {
+            int mouseX = panel.getMousePosition().x;
+            int mouseY = panel.getMousePosition().y;
 
-        Vector2D mousePosition = new Vector2D(mouseX, mouseY);
-        Vector2D carPosition = map.getScreenPosition(car);
+            Vector2D mousePosition = new Vector2D(mouseX, mouseY);
+            Vector2D carPosition = map.getScreenPosition(car);
 
-        Vector2D acceleration = mousePosition.sub(carPosition).scalar(1);
+            Vector2D acceleration = mousePosition.sub(carPosition).scalar(1);
 
-        car.setAcceleration(acceleration);
+            car.setAcceleration(acceleration);
 
-        target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
-        target.setVisible(true);
-        //turnTimer.start();
-        panel.repaint();
+            target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
+            target.setVisible(true);
+            //turnTimer.start();
+            panel.repaint();
+        }
     }
 
     public void mouseReleased(MouseEvent e) {

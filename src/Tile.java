@@ -8,14 +8,18 @@ public class Tile {
     
     protected int c1, c2, c3, c4;
 
-	Tile(int c1, int c2, int c3, int c4) {
+    private Map map;
+
+	Tile(int c1, int c2, int c3, int c4, Map map) {
 		this.c1 = c1;
         this.c2 = c2;
         this.c3 = c3;
         this.c4 = c4;
+        this.map = map;
+
 	}
 
-    public void draw(Graphics2D g, Vector2D camera, int i, int j, Map map) {
+    public void draw(Graphics2D g, Vector2D camera, int i, int j) {
         
         int[] levels = {c1, c2, c3, c4};
         int tmp = lowestLevel();
@@ -88,7 +92,7 @@ public class Tile {
     }
 
     public double getFriction(Vector2D position) {
-    	return 0.1; //return terrain.getFriction();
+    	return (map.getTerrain(c1).getFriction()+map.getTerrain(c2).getFriction()+map.getTerrain(c3).getFriction()+map.getTerrain(c4).getFriction())/4;
     }
     
     public int lowestLevel() {
