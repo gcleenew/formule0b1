@@ -255,12 +255,12 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     
     public void playMusic() {
         try {
-            InputStream in = new FileInputStream("../ressources/1-welcome.wav");
+            InputStream in = new FileInputStream("../ressources/Music/chocobo.wav");
             AudioStream as = new AudioStream(in);         
             AudioPlayer.player.start(as);     
                    
         } catch (IOException e) {
-            System.out.println("fghjkl");
+            System.out.println("Cannot play music");
         }
     }
 
