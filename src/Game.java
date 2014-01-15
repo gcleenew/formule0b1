@@ -202,6 +202,9 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
                 case KeyEvent.VK_B:
                     launchGame("Flavescence.txt");
                     break;
+                case KeyEvent.VK_C:
+                    launchGame("Turn.txt");
+                    break;
             }
         }
     }
