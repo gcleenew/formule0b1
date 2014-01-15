@@ -35,6 +35,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     private Vehicle car;
     private Object target;
+    private Object finish;
 
     private int iTurn;
     private Timer turnTimer;
@@ -80,6 +81,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
         setVisible(true); 
         car = map.getCar();
+        finish = map.getFinish();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
         target.setVisible(false);
@@ -94,13 +96,18 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     }
 
     public void turn() {
-        car.move((double) DT/1000);
-
-        tick += 1;
-        //time = Math.round(time*1000)/1000;
-        timeLabel.setText(Double.toString(tick*DT/100/10.0));
-        //car.setAcceleration(new Vector2D(0, 0));
-        map.centerCamera(car);
+        
+        if (map.testCollision(car, finish)) {
+            timeLabel.setText("Victoire!!");
+        }
+        else {
+            car.move((double) DT/1000);
+            tick += 1;
+            //time = Math.round(time*1000)/1000;
+            timeLabel.setText(Double.toString(tick*DT/100/10.0));
+            //car.setAcceleration(new Vector2D(0, 0));
+            map.centerCamera(car);
+        }
         refresh();
     }
 

@@ -18,6 +18,7 @@ public class Map {
     private Vector2D camera;
 
     private Vehicle car;
+    private Object finish;
 
     private int mapSizeX;
     private int mapSizeY;
@@ -108,6 +109,18 @@ public class Map {
                     
                     addObject(car);
                     break;
+                case "F":
+                    x = Double.parseDouble(dataLine[1]);
+                    y = Double.parseDouble(dataLine[2]);
+                    finish = new Object(new Vector2D(x, y), "../ressources/sprites/Finish.png");
+                    hitbox = new Circle[2];
+                    hitbox[0] = new Circle(new Vector2D(0, -8), 8);
+                    hitbox[1] = new Circle(new Vector2D(0, 8), 8);
+                    finish.setHitbox(hitbox);
+                    finish.collidable = false;
+                    
+                    addObject(finish);
+                    break;
             }
         }
     }
@@ -140,13 +153,13 @@ public class Map {
 
                 // DEBUG : Draw hitbox
 
-                /*if (obj.isCollidable()) {
+                if (obj.isCollidable()) {
                     for (Circle c : obj.getHitbox()) {
                         int cx = (int) (obj.getPosition().x + camera.x + c.position.x -c.ray);
                         int cy = (int) (obj.getPosition().y + camera.y + c.position.y -c.ray);
                         g.drawOval(cx, cy, (int) c.ray*2, (int) c.ray*2);
                     }
-                }*/
+                }
             }
         }
     }
@@ -161,18 +174,23 @@ public class Map {
 
     public boolean testCollision(Object o) {
         for (Object obj : listObject) {
-            if (obj.isCollidable() && obj != o) {
-                for (Circle cObj : obj.getHitbox()) {
-                    for (Circle cO : o.getHitbox()) {
+            if (obj.isCollidable() && testCollision(obj, o) && obj != o) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-                        Vector2D pO = o.getPosition().add(cO.position);
-                        Vector2D pObj = obj.getPosition().add(cObj.position);
-                        double d = pO.sub(pObj).norm();
+    public boolean testCollision(Object o, Object o2) {
+        for (Circle cO2 : o2.getHitbox()) {
+            for (Circle cO : o.getHitbox()) {
 
-                        if (d <= cO.ray + cObj.ray) {
-                            return true;
-                        }
-                    }
+                Vector2D pO = o.getPosition().add(cO.position);
+                Vector2D pO2 = o2.getPosition().add(cO2.position);
+                double d = pO.sub(pO2).norm();
+
+                if (d <= cO.ray + cO2.ray) {
+                    return true;
                 }
             }
         }
@@ -222,5 +240,9 @@ public class Map {
 
     public int getMapSizeY() {
         return mapSizeY;
+    }
+
+    public Object getFinish() {
+        return finish;
     }
 }
