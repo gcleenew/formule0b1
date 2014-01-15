@@ -81,7 +81,7 @@ public class Map {
                     y = Double.parseDouble(dataLine[2]);
                     Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree2.png");
                     hitbox = new Circle[1];
-                    hitbox[0] = new Circle(new Vector2D(0, 0), 15);
+                    hitbox[0] = new Circle(new Vector2D(0, 0), 27);
 
                     tree.setHitbox(hitbox);
                     addObject(tree);
