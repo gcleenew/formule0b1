@@ -73,17 +73,12 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         map = new Map("../ressources/Map/" + mapPath);
         panel = new DrawingPanel(map);
         setContentPane(panel);
-<<<<<<< HEAD
-        setVisible(true);
-        
-=======
 
         timeLabel = new JLabel("");
         timeLabel.setText("0.0");
         panel.add(timeLabel);
 
         setVisible(true); 
->>>>>>> 8600093dffa88a1925db63f560c2ce8e8cd3310a
         car = map.getCar();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
@@ -100,14 +95,10 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public void turn() {
         car.move((double) DT/1000);
-<<<<<<< HEAD
-        time += (double) DT/1000;
-        //timeLabel.setText(Double.toString(time));
-=======
+
         tick += 1;
         //time = Math.round(time*1000)/1000;
         timeLabel.setText(Double.toString(tick*DT/100/10.0));
->>>>>>> 8600093dffa88a1925db63f560c2ce8e8cd3310a
         //car.setAcceleration(new Vector2D(0, 0));
         map.centerCamera(car);
         refresh();
