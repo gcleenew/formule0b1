@@ -16,10 +16,10 @@ public class MenuPanel extends JPanel {
 	protected Image back;
 
 	MenuPanel () {
-	try {
+        try {
             back = ImageIO.read(new File("../ressources/textures/background.png"));
         } catch (IOException e) {
-             System.out.println("Texture \"" + "ressources/textures/background.png" + "\" not found.");
+            System.out.println("Texture \"" + "ressources/textures/background.png" + "\" not found.");
         }
 	}
 

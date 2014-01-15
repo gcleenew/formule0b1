@@ -10,6 +10,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
+import  sun.audio.*;
+import  java.io.*;
+
 public class Game extends JFrame implements MouseListener, KeyListener, ActionListener {
 
     public static final int WINDOW_WIDTH = 1024;
@@ -28,7 +31,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
         Game g = new Game();
     }
-
 
     private Map map;
     private JPanel panel;
@@ -115,6 +117,8 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         map.centerCamera(car);
         iTurn = 0;
         turnTimer = new Timer(DT, this);
+        
+        playMusic();
 
     }
 
@@ -246,6 +250,17 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
                     launchGame("Turn.txt", 1);
                     break;
             }
+        }
+    }
+    
+    public void playMusic() {
+        try {
+            InputStream in = new FileInputStream("../ressources/1-welcome.wav");
+            AudioStream as = new AudioStream(in);         
+            AudioPlayer.player.start(as);     
+                   
+        } catch (IOException e) {
+            System.out.println("fghjkl");
         }
     }
 
