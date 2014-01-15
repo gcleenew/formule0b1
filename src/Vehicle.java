@@ -15,7 +15,6 @@ public class Vehicle extends Object {
 
     public void move(double dt) {
 
-        // Todo: get k from map
         double k = map.getFrictionAt(position);
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);

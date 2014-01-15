@@ -20,13 +20,13 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public static final int WINDOW_WIDTH = 1024;
     public static final int WINDOW_HEIGHT = 768;
 
-    public static int panelSizeX;
-    public static int panelSizeY;
-
     public static final double ACCELERATION_FACTOR = 50;
 
     public static final int DT = 25;
     public static final int DTURN = 1000;
+    
+    public static int panelSizeX;
+    public static int panelSizeY;
 
     public static void main(String[] args) {
         System.out.println("Formule 0b1!");
@@ -38,10 +38,13 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private JPanel panel;
 
     private Vehicle car;
+    
     private Vehicle[] players;
     private int nbPlayers = 0;
     private int currentPlayer = 0;
+    
     private Object target;
+    
     private ArrayList<Object> finish;
 
     private int iTurn;
@@ -51,7 +54,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private JLabel timeLabel;
 
     private boolean ingame = false;
-    
     private boolean win = false;
 
     public Game() {
@@ -59,10 +61,10 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         addMouseListener(this);
         addKeyListener(this);
 
-        this.setTitle("Formule 0b1");
-        this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        this.setLocationRelativeTo(null);               
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Formule 0b1");
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setLocationRelativeTo(null);               
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         panel = new MenuPanel();
         setContentPane(panel);
@@ -90,12 +92,12 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         players = new Vehicle[nbPlayers];
         tick = new int[nbPlayers];
         for (int i = 0; i < nbPlayers; i++) {
-            players[i] = new Vehicle(map, map.getStartPosition(), "../ressources/sprites/chocobo_shadow.png");
+            players[i] = new Vehicle(map, map.getStartPosition(), "sprites/chocobo_shadow.png");
+            
             Circle[] hitbox = new Circle[2];
             hitbox[0] = new Circle(new Vector2D(-20, 0), 16);
             hitbox[1] = new Circle(new Vector2D(16, 0), 16);
             players[i].setHitbox(hitbox);
-            
             players[i].collidable = false;
 
             map.addObject(players[i]);
@@ -107,7 +109,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         
         finish = map.getListFinish();
         
-        target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
+        target = new Object(new Vector2D(0, 0), "sprites/target.png");
         target.setVisible(false);
 
         map.addObject(target);
@@ -117,7 +119,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         turnTimer = new Timer(DT, this);
         
         playMusic();
-
     }
     
     public boolean testWin() {
@@ -176,6 +177,17 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     
     public void showTime() {
         timeLabel.setText("Player " + (currentPlayer + 1) + " - Time : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
+    }
+    
+    public void playMusic() {
+        try {
+            InputStream in = new FileInputStream("../ressources/Music/chocobo.wav");
+            AudioStream as = new AudioStream(in);         
+            AudioPlayer.player.start(as);     
+                   
+        } catch (IOException e) {
+            System.out.println("Cannot play music");
+        }
     }
 
     // Keboard events
@@ -254,23 +266,12 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
                     launchGame("Flavescence.txt", 2);
                     break;
                 case KeyEvent.VK_C:
-                    launchGame("Turn.txt", 2);
+                    launchGame("Turn.txt", 3);
                     break;
                 case KeyEvent.VK_D:
                     launchGame("River.txt", 1);
                     break;
             }
-        }
-    }
-    
-    public void playMusic() {
-        try {
-            InputStream in = new FileInputStream("../ressources/Music/chocobo.wav");
-            AudioStream as = new AudioStream(in);         
-            AudioPlayer.player.start(as);     
-                   
-        } catch (IOException e) {
-            System.out.println("Cannot play music");
         }
     }
 

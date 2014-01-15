@@ -20,16 +20,8 @@ public class DrawingPanel extends JPanel {
     DrawingPanel(Map map) {
         this.map = map;
         
-        try {
-            hud = ImageIO.read(new File("../ressources/textures/hud.png"));
-        } catch (IOException e) {
-            System.out.println("Texture \"" + "ressources/textures/hud.png" + "\" not found.");
-        }
-        try {
-            hud2 = ImageIO.read(new File("../ressources/textures/hud2.png"));
-        } catch (IOException e) {
-            System.out.println("Texture \"" + "ressources/textures/hud2.png" + "\" not found.");
-        }
+        hud = ImageLoader.load("textures/hud.png");
+        hud2 = ImageLoader.load("textures/hud2.png");
         
         setBackground(Color.BLACK);
     }

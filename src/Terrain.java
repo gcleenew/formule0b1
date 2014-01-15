@@ -12,11 +12,7 @@ public class Terrain {
 
 	Terrain(String texturePath, double friction) {
 		this.friction = friction;
-		try {
-            texture = ImageIO.read(new File(texturePath));
-        } catch (IOException e) {
-             System.out.println("Texture \"" + texturePath + "\" not found.");
-        }
+		texture = ImageLoader.load(texturePath);
 	}
 
 	public double getFriction () {
