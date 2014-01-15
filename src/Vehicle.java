@@ -20,14 +20,17 @@ public class Vehicle extends Object {
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);
 
-        if (k == -1) { // Smoke On the water
+        if (k < 0) { // Smoke On the water
             acceleration = new Vector2D(0, 0);
         }
-
-        speed = speed.add(acceleration.sub(speed.scalar(k)).scalar(dt));
+        else {
+            speed = speed.add(acceleration.sub(speed.scalar(k)).scalar(dt));
+        }
+        
         position = position.add(speed.scalar(dt));
 
-        if (map.testCollision(this)) {
+        if (map.testCollision(this) || position.x < 0 || position.y < 0 || position.x > map.getMapSizeX() || position.y > map.getMapSizeY()) {
+            acceleration = new Vector2D(0, 0);
             speed = new Vector2D(0, 0);
             position = new Vector2D(oldPosition.x, oldPosition.y);
         }
@@ -43,7 +46,10 @@ public class Vehicle extends Object {
 
         for (double t = 0; t < dturn; t += dt) {
             k = map.getFrictionAt(positionTmp);
-            speedTmp = speedTmp.add(acceleration.sub(speedTmp.scalar(k)).scalar(dt));
+            if (k >= 0) {
+                speedTmp = speedTmp.add(acceleration.sub(speedTmp.scalar(k)).scalar(dt));
+            }
+            
             positionTmp = positionTmp.add(speedTmp.scalar(dt));
         }
 

@@ -19,6 +19,9 @@ public class Map {
 
     private Vehicle car;
 
+    private int mapSizeX;
+    private int mapSizeY;
+
     Map(String file_name) {
 
         listObject = new ArrayList<Object>();
@@ -42,25 +45,26 @@ public class Map {
 
         int height = dataArray.length;
         int width = dataArray[0].length();
+
+        mapSizeX = (width-1)*TILE_SIZE;
+        mapSizeY = (height-1)*TILE_SIZE;
     
         terrains = new Terrain[3];
-        terrains[0] = new Terrain("../ressources/textures/road2.png", 5);
-        terrains[1] = new Terrain("../ressources/textures/grassset.png", 0.1);
-        terrains[2] = new Terrain("../ressources/textures/waterset.png", 0.1);
+        terrains[0] = new Terrain("../ressources/textures/road2.png", 0.1);
+        terrains[1] = new Terrain("../ressources/textures/grassset.png", 2);
+        terrains[2] = new Terrain("../ressources/textures/waterset.png", -1);
         
         tiles = new Tile[width - 1][height - 1];
 
 
         for (int i = 0; i < width - 1; i++) {
             for(int j = 0; j < height - 1; j++) {
-                //tiles[i][j] = new SimpleTile(t);
                 int c1 = Character.getNumericValue(dataArray[j].charAt(i));
                 int c2 = Character.getNumericValue(dataArray[j].charAt(i+1));
                 int c3 = Character.getNumericValue(dataArray[j+1].charAt(i+1));
                 int c4 = Character.getNumericValue(dataArray[j+1].charAt(i));
                                 
-                tiles[i][j] = new Tile(c1, c2, c3, c4);
-
+                tiles[i][j] = new Tile(c1, c2, c3, c4, this);
             }
         }
 
@@ -139,7 +143,7 @@ public class Map {
     public void drawTiles(Graphics2D g) {
         for (int i = 0; i < tiles.length; i++) {
             for(int j = 0; j < tiles[i].length; j++) {
-                tiles[i][j].draw(g, camera, i, j, this);
+                tiles[i][j].draw(g, camera, i, j);
             }
         }
     }
@@ -171,8 +175,20 @@ public class Map {
     }
 
     public void centerCamera(Object obj) {
-        camera.x = Game.WINDOW_WIDTH/2 - obj.getPosition().x;
-        camera.y = Game.WINDOW_HEIGHT/2 - obj.getPosition().y;
+        camera.x = Game.panelSizeX/2 - obj.getPosition().x;
+        camera.y = Game.panelSizeY/2 - obj.getPosition().y;
+        if (camera.x > 0) {
+            camera.x = 0;
+        }
+        if (-camera.x + Game.panelSizeX > mapSizeX) {
+            camera.x = -mapSizeX + Game.panelSizeX;
+        }
+        if (camera.y > 0) {
+            camera.y = 0;
+        }
+        if (-camera.y + Game.panelSizeY > mapSizeY) {
+            camera.y = -mapSizeY + Game.panelSizeY;
+        }
     }
 
     public Vector2D getScreenPosition(Object obj) {
@@ -187,5 +203,13 @@ public class Map {
 
     public Vehicle getCar() {
         return car;
+    }
+
+    public int getMapSizeX() {
+        return mapSizeX;
+    }
+
+    public int getMapSizeY() {
+        return mapSizeY;
     }
 }

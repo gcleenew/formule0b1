@@ -5,7 +5,7 @@ CLASSPATH = libs/stdlib.jar
 JAVA_MAIN_CLASS = Game
  
 compile:
-	mkdir -p bin
+	mkdir -p binMap map
 	javac -d bin -cp :./$(CLASSPATH) src/*.java
  
 run:
