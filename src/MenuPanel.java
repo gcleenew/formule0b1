@@ -33,7 +33,8 @@ public class MenuPanel extends JPanel {
         g2.drawString("Press A, B, C or D to start", 100, 700);
 
         g2.drawString("A - Sonama", 200, 200);
-        g2.drawString("B - Acds", 200, 220);
+        g2.drawString("B - Flavescence", 200, 220);
+        g2.drawString("C - Turn", 200, 240);
     }
 
 }
