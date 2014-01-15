@@ -52,7 +52,7 @@ public class Tile {
                         dx = 0; dy = 2;
                         break;
                     case 5:
-                        dx = 0; dy = 3;
+                        dx = 3; dy = 0;
                         break;
                     case 6:
                         dx = 0; dy = 1;
