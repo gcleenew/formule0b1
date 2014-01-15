@@ -147,13 +147,13 @@ public class Map {
 
                 // DEBUG : Draw hitbox
 
-                if (obj.isCollidable()) {
+                /*if (obj.isCollidable()) {
                     for (Circle c : obj.getHitbox()) {
                         int cx = (int) (obj.getPosition().x + camera.x + c.position.x -c.ray);
                         int cy = (int) (obj.getPosition().y + camera.y + c.position.y -c.ray);
                         g.drawOval(cx, cy, (int) c.ray*2, (int) c.ray*2);
                     }
-                }
+                }*/
             }
         }
     }
