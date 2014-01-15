@@ -18,7 +18,7 @@ public class Map {
     private Vector2D camera;
 
     private Vector2D startPosition;
-    private Object finish;
+    private ArrayList<Object> listFinish;
 
     private int mapSizeX;
     private int mapSizeY;
@@ -26,6 +26,7 @@ public class Map {
     Map(String file_name) {
 
         listObject = new ArrayList<Object>();
+        listFinish = new ArrayList<Object>();
 
         camera = new Vector2D(0, 0);
         String data = "";
@@ -103,10 +104,11 @@ public class Map {
                     y = Double.parseDouble(dataLine[2]);
                     startPosition = new Vector2D(x, y);
                     break;
+                    
                 case "F":
                     x = Double.parseDouble(dataLine[1]);
                     y = Double.parseDouble(dataLine[2]);
-                    finish = new Object(new Vector2D(x, y), "../ressources/sprites/Finish.png");
+                    Object finish = new Object(new Vector2D(x, y), "../ressources/sprites/Finish.png");
                     hitbox = new Circle[2];
                     hitbox[0] = new Circle(new Vector2D(0, -8), 8);
                     hitbox[1] = new Circle(new Vector2D(0, 8), 8);
@@ -114,6 +116,7 @@ public class Map {
                     finish.collidable = false;
                     
                     addObject(finish);
+                    listFinish.add(finish);
                     break;
             }
         }
@@ -236,7 +239,7 @@ public class Map {
         return mapSizeY;
     }
 
-    public Object getFinish() {
-        return finish;
+    public ArrayList<Object> getListFinish() {
+        return listFinish;
     }
 }

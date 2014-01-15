@@ -15,7 +15,7 @@ public class DrawingPanel extends JPanel {
 
     Map map;
     
-    protected Image hud;
+    protected Image hud, hud2;
 
     DrawingPanel(Map map) {
         this.map = map;
@@ -24,6 +24,11 @@ public class DrawingPanel extends JPanel {
             hud = ImageIO.read(new File("../ressources/textures/hud.png"));
         } catch (IOException e) {
             System.out.println("Texture \"" + "ressources/textures/hud.png" + "\" not found.");
+        }
+        try {
+            hud2 = ImageIO.read(new File("../ressources/textures/hud2.png"));
+        } catch (IOException e) {
+            System.out.println("Texture \"" + "ressources/textures/hud2.png" + "\" not found.");
         }
         
         setBackground(Color.BLACK);
@@ -36,5 +41,6 @@ public class DrawingPanel extends JPanel {
         map.draw(g2);
         
         g2.drawImage(hud, 5, Game.panelSizeY-150, null);
+        g2.drawImage(hud2, Game.panelSizeX/2-140, 0, null);
     }
 }

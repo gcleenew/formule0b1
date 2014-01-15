@@ -19,6 +19,7 @@ public class Vehicle extends Object {
         double k = map.getFrictionAt(position);
 
         Vector2D oldPosition = new Vector2D(position.x, position.y);
+        double oldRotation = rotation;
 
         if (k < 0) { // Smoke On the water
             acceleration = new Vector2D(0, 0);
@@ -28,14 +29,14 @@ public class Vehicle extends Object {
         }
         
         position = position.add(speed.scalar(dt));
-
+        calculateRotation();
+        
         if (map.testCollision(this) || position.x < 0 || position.y < 0 || position.x > map.getMapSizeX() || position.y > map.getMapSizeY()) {
             acceleration = new Vector2D(0, 0);
             speed = new Vector2D(0, 0);
             position = new Vector2D(oldPosition.x, oldPosition.y);
+            setRotation(oldRotation);
         }
-
-        calculateRotation();
     }
 
     public Vector2D getNextPosition(double dt, double dturn) {

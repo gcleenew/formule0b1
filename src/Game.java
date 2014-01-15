@@ -3,6 +3,8 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import javax.swing.JPanel;
 
+import java.util.ArrayList;
+
 import java.awt.event.MouseListener;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
@@ -40,7 +42,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private int nbPlayers = 0;
     private int currentPlayer = 0;
     private Object target;
-    private Object finish;
+    private ArrayList<Object> finish;
 
     private int iTurn;
     private Timer turnTimer;
@@ -54,8 +56,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
     public Game() {
         
-        //panel = new DrawingPanel(map);
-
         addMouseListener(this);
         addKeyListener(this);
 
@@ -86,7 +86,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         panel.add(timeLabel);
 
         setVisible(true); 
-        //car = map.getCar();
         
         players = new Vehicle[nbPlayers];
         tick = new int[nbPlayers];
@@ -106,13 +105,12 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         car = players[0];
         car.collidable = true;
         
-        finish = map.getFinish();
+        finish = map.getListFinish();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
         target.setVisible(false);
 
         map.addObject(target);
-        //map.addObject(car);
 
         map.centerCamera(car);
         iTurn = 0;
@@ -121,10 +119,19 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         playMusic();
 
     }
+    
+    public boolean testWin() {
+        for (Object f : finish) {
+            if (map.testCollision(car, f)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void turn() {
         if (!win) {
-            if (map.testCollision(car, finish)) {
+            if (testWin()) {
                 win = true;
                 timeLabel.setText("Player " + (currentPlayer + 1) + " win ! Score : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
             }
@@ -241,13 +248,16 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         } else {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
-                    launchGame("Sonama2.txt", 1);
+                    launchGame("Sonama2.txt", 2);
                     break;
                 case KeyEvent.VK_B:
-                    launchGame("Flavescence.txt", 1);
+                    launchGame("Flavescence.txt", 2);
                     break;
                 case KeyEvent.VK_C:
-                    launchGame("Turn.txt", 1);
+                    launchGame("Turn.txt", 2);
+                    break;
+                case KeyEvent.VK_D:
+                    launchGame("River.txt", 1);
                     break;
             }
         }
@@ -282,7 +292,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
 
             target.setPosition(car.getNextPosition((double) DT/1000, (double) DTURN/1000));
             target.setVisible(true);
-            //turnTimer.start();
             panel.repaint();
         }
     }
