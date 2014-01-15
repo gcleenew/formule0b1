@@ -86,6 +86,17 @@ public class Map {
                     addObject(tree);
                     break;
                     
+                case "R":
+                    x = Double.parseDouble(dataLine[1]);
+                    y = Double.parseDouble(dataLine[2]);
+                    Object rock = new Object(new Vector2D(x, y), "../ressources/sprites/rock2.png");
+                    hitbox = new Circle[1];
+                    hitbox[0] = new Circle(new Vector2D(0, 0), 15);
+
+                    rock.setHitbox(hitbox);
+                    addObject(rock);
+                    break;
+                    
                 case "V":
                     x = Double.parseDouble(dataLine[1]);
                     y = Double.parseDouble(dataLine[2]);
