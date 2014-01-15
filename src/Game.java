@@ -23,7 +23,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public static void main(String[] args) {
         System.out.println("Formule 0b1!");
         //Menu menu = new Menu();
-        System.out.println("done");
         //Map map = new Map("../ressources/Map/Sonama2.txt");
 
         Game g = new Game();
@@ -70,14 +69,15 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         map = new Map("../ressources/Map/Sonama2.txt");
         panel = new DrawingPanel(map);
         setContentPane(panel);
-        setVisible(true); 
+        setVisible(true);
+        
         car = map.getCar();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
         target.setVisible(false);
 
         map.addObject(target);
-        map.addObject(car);
+        //map.addObject(car);
 
         map.centerCamera(car);
         iTurn = 0;
@@ -88,7 +88,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     public void turn() {
         car.move((double) DT/1000);
         time += (double) DT/1000;
-        timeLabel.setText(Double.toString(time));
+        //timeLabel.setText(Double.toString(time));
         //car.setAcceleration(new Vector2D(0, 0));
         map.centerCamera(car);
         refresh();
