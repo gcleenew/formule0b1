@@ -17,7 +17,7 @@ public class Map {
 
     private Vector2D camera;
 
-    private Vehicle car;
+    private Vector2D startPosition;
     private Object finish;
 
     private int mapSizeX;
@@ -101,13 +101,7 @@ public class Map {
                 case "V":
                     x = Double.parseDouble(dataLine[1]);
                     y = Double.parseDouble(dataLine[2]);
-                    car = new Vehicle(this, new Vector2D(x, y), "../ressources/sprites/chocobo_shadow.png");
-                    hitbox = new Circle[2];
-                    hitbox[0] = new Circle(new Vector2D(-20, 0), 16);
-                    hitbox[1] = new Circle(new Vector2D(16, 0), 16);
-                    car.setHitbox(hitbox);
-                    
-                    addObject(car);
+                    startPosition = new Vector2D(x, y);
                     break;
                 case "F":
                     x = Double.parseDouble(dataLine[1]);
@@ -230,8 +224,8 @@ public class Map {
         return terrains[level];
     }
 
-    public Vehicle getCar() {
-        return car;
+    public Vector2D getStartPosition() {
+        return startPosition;
     }
 
     public int getMapSizeX() {

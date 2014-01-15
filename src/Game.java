@@ -34,16 +34,21 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     private JPanel panel;
 
     private Vehicle car;
+    private Vehicle[] players;
+    private int nbPlayers = 0;
+    private int currentPlayer = 0;
     private Object target;
     private Object finish;
 
     private int iTurn;
     private Timer turnTimer;
     
-    private int tick = 0;
+    private int[] tick;
     private JLabel timeLabel;
 
     private boolean ingame = false;
+    
+    private boolean win = false;
 
     public Game() {
         
@@ -60,15 +65,15 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         panel = new MenuPanel();
         setContentPane(panel);
 
-
-
         setVisible(true);
 
         panelSizeX = panel.getSize().width;
         panelSizeY = panel.getSize().height;
     }
 
-    public void launchGame(String mapPath) {
+    public void launchGame(String mapPath, int nbPlayers) {
+        
+        this.nbPlayers = nbPlayers;
         
         ingame = true;
         map = new Map("../ressources/Map/" + mapPath);
@@ -76,11 +81,29 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         setContentPane(panel);
 
         timeLabel = new JLabel("");
-        timeLabel.setText("0.0");
         panel.add(timeLabel);
 
         setVisible(true); 
-        car = map.getCar();
+        //car = map.getCar();
+        
+        players = new Vehicle[nbPlayers];
+        tick = new int[nbPlayers];
+        for (int i = 0; i < nbPlayers; i++) {
+            players[i] = new Vehicle(map, map.getStartPosition(), "../ressources/sprites/chocobo_shadow.png");
+            Circle[] hitbox = new Circle[2];
+            hitbox[0] = new Circle(new Vector2D(-20, 0), 16);
+            hitbox[1] = new Circle(new Vector2D(16, 0), 16);
+            players[i].setHitbox(hitbox);
+            
+            players[i].collidable = false;
+
+            map.addObject(players[i]);
+            
+            tick[i] = 0;
+        }
+        car = players[0];
+        car.collidable = true;
+        
         finish = map.getFinish();
         
         target = new Object(new Vector2D(0, 0), "../ressources/sprites/target.png");
@@ -96,19 +119,19 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
     }
 
     public void turn() {
-        
-        if (map.testCollision(car, finish)) {
-            timeLabel.setText("Victoire!!");
+        if (!win) {
+            if (map.testCollision(car, finish)) {
+                win = true;
+                timeLabel.setText("Player " + (currentPlayer + 1) + " win ! Score : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
+            }
+            else {
+                car.move((double) DT/1000);
+                tick[currentPlayer] += 1;
+                showTime();
+                map.centerCamera(car);
+            }
+            refresh();
         }
-        else {
-            car.move((double) DT/1000);
-            tick += 1;
-            //time = Math.round(time*1000)/1000;
-            timeLabel.setText(Double.toString(tick*DT/100/10.0));
-            //car.setAcceleration(new Vector2D(0, 0));
-            map.centerCamera(car);
-        }
-        refresh();
     }
 
     public void refresh() {
@@ -124,7 +147,24 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         if (iTurn >= DTURN/DT) {
             iTurn = 0;
             turnTimer.stop();
+            
+            if (!win) {
+                changePlayer();
+            }
         }
+    }
+    
+    public void changePlayer() {
+        players[currentPlayer].collidable = false;
+        currentPlayer = (currentPlayer + 1) % nbPlayers;
+        players[currentPlayer].collidable = true;
+        car = players[currentPlayer];
+        map.centerCamera(car);
+        showTime();
+    }
+    
+    public void showTime() {
+        timeLabel.setText("Player " + (currentPlayer + 1) + " - Time : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
     }
 
     // Keboard events
@@ -197,10 +237,10 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         } else {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
-                    launchGame("Sonama2.txt");
+                    launchGame("Sonama2.txt", 1);
                     break;
                 case KeyEvent.VK_B:
-                    launchGame("Flavescence.txt");
+                    launchGame("Flavescence.txt", 1);
                     break;
                 case KeyEvent.VK_C:
                     launchGame("Turn.txt");
