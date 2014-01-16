@@ -118,7 +118,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         iTurn = 0;
         turnTimer = new Timer(DT, this);
         
-        playMusic();
+        playMusic("chocobo.wav");
 
     }
 
@@ -127,6 +127,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             if (map.testCollision(car, finish)) {
                 win = true;
                 timeLabel.setText("Player " + (currentPlayer + 1) + " win ! Score : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
+                playMusic("victory.wav");
             }
             else {
                 car.move((double) DT/1000);
@@ -241,7 +242,7 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         } else {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
-                    launchGame("Sonama2.txt", 1);
+                    launchGame("Sonama2.txt", 2);
                     break;
                 case KeyEvent.VK_B:
                     launchGame("Flavescence.txt", 1);
@@ -253,9 +254,9 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         }
     }
     
-    public void playMusic() {
+    public void playMusic(String name) {
         try {
-            InputStream in = new FileInputStream("../ressources/Music/chocobo.wav");
+            InputStream in = new FileInputStream("../ressources/Music/" + name);
             AudioStream as = new AudioStream(in);         
             AudioPlayer.player.start(as);     
                    
