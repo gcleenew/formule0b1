@@ -18,11 +18,7 @@ public class Object {
     Object(Vector2D position, String spritePath) {
         this.position = position;
 
-        try {
-            sprite = ImageIO.read(new File(spritePath));
-        } catch (IOException e) {
-             System.out.println("Sprite \"" + spritePath + "\" not found.");
-        }
+        sprite = ImageLoader.load(spritePath);
     }
 
     public boolean isCollidable() {
@@ -66,8 +62,6 @@ public class Object {
 
                 double x = dir.x * cos - dir.y * sin;
                 double y = dir.x * sin + dir.y * cos;
-
-                //System.out.println(c.position.x + " " + c.position.y + "/" + norm + "/" + rotation + "/" + cos + " " + sin + "/" + x + " " + y);
 
                 c.position = new Vector2D(x * norm, y * norm);
             }

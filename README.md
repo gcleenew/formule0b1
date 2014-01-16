@@ -1,4 +1,7 @@
-formule0b1
+Formule 0b1
 ==========
 
-Java project
+Projet Java A1
+
+COSTET Valentin
+CLEENEWERCK Guillaume

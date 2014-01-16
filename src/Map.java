@@ -18,7 +18,7 @@ public class Map {
     private Vector2D camera;
 
     private Vector2D startPosition;
-    private Object finish;
+    private ArrayList<Object> listFinish;
 
     private int mapSizeX;
     private int mapSizeY;
@@ -26,6 +26,7 @@ public class Map {
     Map(String file_name) {
 
         listObject = new ArrayList<Object>();
+        listFinish = new ArrayList<Object>();
 
         camera = new Vector2D(0, 0);
         String data = "";
@@ -51,9 +52,9 @@ public class Map {
         mapSizeY = (height-1)*TILE_SIZE;
     
         terrains = new Terrain[3];
-        terrains[0] = new Terrain("../ressources/textures/road2.png", 0.1);
-        terrains[1] = new Terrain("../ressources/textures/grassset.png", 2);
-        terrains[2] = new Terrain("../ressources/textures/waterset.png", -1);
+        terrains[0] = new Terrain("textures/road2.png", 0.1);
+        terrains[1] = new Terrain("textures/grassset.png", 2);
+        terrains[2] = new Terrain("textures/waterset.png", -1);
         
         tiles = new Tile[width - 1][height - 1];
 
@@ -75,11 +76,11 @@ public class Map {
         
         for (int i = 1; i < dataObject.length; i++) {
             String[] dataLine = dataObject[i].split(" ");
+            x = Double.parseDouble(dataLine[1]);
+            y = Double.parseDouble(dataLine[2]);
             switch (dataLine[0]) {
                 case "T":
-                    x = Double.parseDouble(dataLine[1]);
-                    y = Double.parseDouble(dataLine[2]);
-                    Object tree = new Object(new Vector2D(x, y), "../ressources/sprites/tree2.png");
+                    Object tree = new Object(new Vector2D(x, y), "sprites/tree2.png");
                     hitbox = new Circle[1];
                     hitbox[0] = new Circle(new Vector2D(0, 0), 27);
 
@@ -88,9 +89,7 @@ public class Map {
                     break;
                     
                 case "R":
-                    x = Double.parseDouble(dataLine[1]);
-                    y = Double.parseDouble(dataLine[2]);
-                    Object rock = new Object(new Vector2D(x, y), "../ressources/sprites/rock2.png");
+                    Object rock = new Object(new Vector2D(x, y), "sprites/rock2.png");
                     hitbox = new Circle[1];
                     hitbox[0] = new Circle(new Vector2D(0, 0), 15);
 
@@ -99,14 +98,11 @@ public class Map {
                     break;
                     
                 case "V":
-                    x = Double.parseDouble(dataLine[1]);
-                    y = Double.parseDouble(dataLine[2]);
                     startPosition = new Vector2D(x, y);
                     break;
+                    
                 case "F":
-                    x = Double.parseDouble(dataLine[1]);
-                    y = Double.parseDouble(dataLine[2]);
-                    finish = new Object(new Vector2D(x, y), "../ressources/sprites/Finish.png");
+                    Object finish = new Object(new Vector2D(x, y), "sprites/Finish.png");
                     hitbox = new Circle[2];
                     hitbox[0] = new Circle(new Vector2D(0, -8), 8);
                     hitbox[1] = new Circle(new Vector2D(0, 8), 8);
@@ -114,6 +110,7 @@ public class Map {
                     finish.collidable = false;
                     
                     addObject(finish);
+                    listFinish.add(finish);
                     break;
             }
         }
@@ -236,7 +233,7 @@ public class Map {
         return mapSizeY;
     }
 
-    public Object getFinish() {
-        return finish;
+    public ArrayList<Object> getListFinish() {
+        return listFinish;
     }
 }

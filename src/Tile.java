@@ -16,7 +16,6 @@ public class Tile {
         this.c3 = c3;
         this.c4 = c4;
         this.map = map;
-
 	}
 
     public void draw(Graphics2D g, Vector2D camera, int i, int j) {
@@ -88,7 +87,6 @@ public class Tile {
                 g.drawImage(img, x, y, x + Map.TILE_SIZE, y + Map.TILE_SIZE, dx * Map.TILE_SIZE/FACTOR, dy * Map.TILE_SIZE/FACTOR, (dx+1) * Map.TILE_SIZE/FACTOR, (dy +1) * Map.TILE_SIZE/FACTOR, null);
             }
         }
-        //g.drawImage(terrain.getTexture(), (int) camera.x+Map.TILE_SIZE*i, (int) camera.y+Map.TILE_SIZE*j, null);
     }
 
     public double getFriction(Vector2D position) {
