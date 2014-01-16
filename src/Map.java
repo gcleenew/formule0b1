@@ -96,6 +96,11 @@ public class Map {
                     rock.setHitbox(hitbox);
                     addObject(rock);
                     break;
+
+                case "L":
+                    Object lily = new Object(new Vector2D(x, y), "sprites/lily.png");
+                    addObject(lily);
+                    break;
                     
                 case "V":
                     startPosition = new Vector2D(x, y);
