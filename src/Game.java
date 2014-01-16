@@ -128,7 +128,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             }
         }
         return false;
->>>>>>> 22a1ffe727383847e8e0bcb50acd8a095f972f01
     }
 
     public void turn() {
@@ -181,9 +180,9 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
         timeLabel.setText("Player " + (currentPlayer + 1) + " - Time : " + Double.toString(tick[currentPlayer]*DT/100/10.0));
     }
     
-    public void playMusic() {
+    public void playMusic(String name) {
         try {
-            InputStream in = new FileInputStream("../ressources/Music/chocobo.wav");
+            InputStream in = new FileInputStream("../ressources/Music/" + name);
             AudioStream as = new AudioStream(in);         
             AudioPlayer.player.start(as);     
                    
@@ -276,20 +275,6 @@ public class Game extends JFrame implements MouseListener, KeyListener, ActionLi
             }
         }
     }
-<<<<<<< HEAD
-    
-    public void playMusic(String name) {
-        try {
-            InputStream in = new FileInputStream("../ressources/Music/" + name);
-            AudioStream as = new AudioStream(in);         
-            AudioPlayer.player.start(as);     
-                   
-        } catch (IOException e) {
-            System.out.println("Cannot play music");
-        }
-    }
-=======
->>>>>>> 22a1ffe727383847e8e0bcb50acd8a095f972f01
 
     public void keyReleased(KeyEvent e) {
     }
